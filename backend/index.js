@@ -38,8 +38,6 @@ function updateFile()
     } );
 }
 
-const pug = require('pug');
-const compiledFunction = pug.compileFile('./backend/template.pug');
 const authors = require('./authors');
 const express = require('express');
 const underscore = require('underscore');
@@ -47,8 +45,12 @@ const app = express();
 var cors = require('cors');
 app.use(cors());
 //pug stuff to use render
+
+const pug = require('pug');
+const compiledFunction = pug.compileFile('./backend/template.pug');
+
+app.set('views', './views');
 app.set('view engine', 'pug');
-app.set("views", './backend/template.pug', "views");
 
 
 app.get("/books/random", (req, res) => {
@@ -85,7 +87,10 @@ app.get("/books", (req, res) => {
   //lets send html below: 
   // res.sendFile(htmlContent); (sends a .html thingo)
 
-  res.render(htmlContent);
+  // res.render(htmlContent);
+
+  res.render("index", hmmBooks[0]);
+
   return res;
 });
 
