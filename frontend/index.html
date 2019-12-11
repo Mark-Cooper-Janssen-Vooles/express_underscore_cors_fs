@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Books App</h1>
+  <div class="displayBooks"></div>
+
+  <script>
+    let apiFetch = async() => {
+      let response = await fetch("http://localhost:4444/books");
+      console.log( "Got await fetch response header..." );
+
+      let data = await response.json();
+      console.log( "Got await fetch data..." );
+      console.log( data );
+
+
+
+      let appendHere = document.querySelector(".displayBooks");
+
+      data.forEach(element => {
+        let someElement = document.createElement("div");
+        someElement.innerHTML = `
+          <h3>Title: ${element.title}</h3>
+          <p>ID: ${element.id}</p>
+          <span>Author: ${element.authur}</span>
+          <span>Hardback: ${element.isHardback}</span>
+          <hr>
+        `;
+        appendHere.appendChild(someElement);
+      });
+
+      return data;
+    }
+
+    apiFetch();
+
+
+  </script>
+</body>
+</html>
