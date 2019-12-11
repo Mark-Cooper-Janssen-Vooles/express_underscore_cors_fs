@@ -38,13 +38,17 @@ function updateFile()
     } );
 }
 
-
+const pug = require('pug');
+const compiledFunction = pug.compileFile('./backend/template.pug');
 const authors = require('./authors');
 const express = require('express');
 const underscore = require('underscore');
 const app = express();
 var cors = require('cors');
 app.use(cors());
+//pug stuff to use render
+app.set('view engine', 'pug');
+app.set("views", './backend/template.pug', "views");
 
 
 app.get("/books/random", (req, res) => {
@@ -69,8 +73,19 @@ app.get("/books", (req, res) => {
         isHardback: book.isHardback
     }
   });
+  //sends the json object
+  // res.send(hmmBooks)
 
-  res.send(hmmBooks)
+  //will need some sort of foreach loop for this
+  let htmlContent = compiledFunction(hmmBooks[0]);
+
+
+  console.log(htmlContent);
+
+  //lets send html below: 
+  // res.sendFile(htmlContent); (sends a .html thingo)
+
+  res.render(htmlContent);
   return res;
 });
 
